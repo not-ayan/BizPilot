@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizPilot | Record Sale</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            /* Palette */
+            --bg:          #F5F4F0;
+            --surface:     #FFFFFF;
+            --surface-2:   #FAFAF8;
+            --border:      #E8E6E0;
+            --border-strong: #D4D0C8;
+
+            /* Text */
+            --t0: #1C1B18;
+            --t1: #4A4840;
+            --t2: #8A8780;
+            --t3: #B8B4AA;
+
+            /* Accent: warm indigo */
+            --accent:      #4F46E5;
+            --accent-h:    #4338CA;
+            --accent-bg:   #EEF2FF;
+            --accent-light: rgba(79, 70, 229, 0.08);
+
+            /* Status */
+            --green:       #059669;
+            --green-bg:    #ECFDF5;
+            --red:         #DC2626;
+            --red-bg:      #FEF2F2;
+            --amber:       #D97706;
+            --amber-bg:    #FFFBEB;
+
+            /* Signature warm amber rule */
+            --rule: linear-gradient(90deg, #F59E0B 0%, #EF4444 40%, #8B5CF6 80%, #3B82F6 100%);
+
+            /* Type */
+            --font: 'DM Sans', -apple-system, system-ui, sans-serif;
+            --mono: 'DM Mono', 'Courier New', monospace;
+
+            /* Radii & shadow */
+            --r: 10px;
+            --r-lg: 14px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.06);
+        }
+
+        html { font-size: 15px; -webkit-font-smoothing: antialiased; }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--t0);
+            min-height: 100vh;
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+
+        /* ── Page header ── */
+        .page-header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--rule);
+            opacity: 0.7;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--t0);
+            letter-spacing: -0.02em;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.25rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .brand-badge {
+            background: var(--accent-bg);
+            color: var(--accent);
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        /* ── Buttons ── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 0.9rem;
+            border-radius: var(--r);
+            font-family: var(--font);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border-strong);
+            background: var(--surface);
+            color: var(--t1);
+            transition: all 0.15s ease;
+            white-space: nowrap;
+            line-height: 1;
+        }
+
+        .btn:hover {
+            background: var(--surface-2);
+            border-color: var(--t3);
+            color: var(--t0);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            box-shadow: 0 1px 3px rgba(79,70,229,0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-h);
+            border-color: var(--accent-h);
+            color: #fff;
+        }
+
+        /* ── Page body ── */
+        .page-body {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .content-layout {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        /* ── Panel / Form cards ── */
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-lg);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.25rem;
+            overflow: hidden;
+        }
+
+        .panel-head {
+            padding: 0.85rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--t1);
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            background: var(--surface-2);
+        }
+
+        .panel-head i { color: var(--t3); }
+        .panel-body { padding: 1.25rem; }
+
+        /* ── Form Inputs ── */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .field {
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .field.span-2 { grid-column: span 2; }
+
+        .field label {
+            display: block;
+            font-size: 0.71rem;
+            font-weight: 700;
+            color: var(--t2);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.4rem;
+        }
+
+        .field-ctrl {
+            width: 100%;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.6rem 0.8rem;
+            font-family: var(--font);
+            font-size: 0.87rem;
+            color: var(--t0);
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .field-ctrl:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(79,70,229,0.08);
+        }
+
+        .field-ctrl::placeholder { color: var(--t3); }
+
+        /* ── Autocomplete dropdown ── */
+        .autocomplete-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+            z-index: 100;
+            max-height: 180px;
+            overflow-y: auto;
+            display: none;
+            margin-top: 2px;
+        }
+
+        .autocomplete-results.active { display: block; }
+
+        .autocomplete-item {
+            padding: 0.6rem 0.8rem;
+            font-size: 0.82rem;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border);
+            color: var(--t1);
+            transition: background 0.12s;
+        }
+
+        .autocomplete-item:last-child { border-bottom: none; }
+        .autocomplete-item:hover { background: var(--bg); color: var(--t0); }
+
+        /* ── Inline Toggles ── */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.65rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .toggle-row:last-child { border-bottom: none; }
+        .toggle-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--t1);
+        }
+
+        /* ── Toggle switch ── */
+        .toggle {
+            display: inline-block;
+            position: relative;
+            width: 34px;
+            height: 19px;
+        }
+
+        .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+
+        .toggle-track {
+            position: absolute;
+            inset: 0;
+            background: var(--border-strong);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.18s;
+        }
+
+        .toggle-track::after {
+            content: '';
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            top: 3px;
+            left: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.18s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+
+        .toggle input:checked + .toggle-track { background: var(--green); }
+        .toggle input:checked + .toggle-track::after { transform: translateX(15px); }
+
+        /* ── Cart Builder ── */
+        .cart-builder {
+            display: grid;
+            grid-template-columns: 1.5fr 70px 80px 100px auto;
+            gap: 0.5rem;
+            align-items: flex-end;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed var(--border-strong);
+            margin-bottom: 1rem;
+        }
+
+        /* ── Cart Table ── */
+        .cart-table-head {
+            display: grid;
+            grid-template-columns: 1.5fr 70px 80px 100px 40px;
+            padding: 0.5rem 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--t2);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cart-table-row {
+            display: grid;
+            grid-template-columns: 1.5fr 70px 80px 100px 40px;
+            padding: 0.65rem 0.5rem;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+
+        .cart-table-row:last-child { border-bottom: none; }
+
+        .cart-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .cart-item-name { font-weight: 600; color: var(--t0); }
+        .cart-item-warranty { font-size: 0.72rem; color: var(--t2); }
+
+        .cart-item-qty, .cart-item-price, .cart-item-total {
+            font-family: var(--mono);
+            color: var(--t1);
+        }
+
+        .cart-item-total { font-weight: 600; color: var(--t0); }
+
+        .btn-remove {
+            color: var(--t3);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.12s;
+            font-size: 0.85rem;
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-remove:hover { color: var(--red); background: var(--red-bg); }
+
+        /* ── Right Column: Invoice summary ── */
+        .summary-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-lg);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            position: sticky;
+            top: 76px;
+        }
+
+        .summary-title {
+            font-family: var(--font);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--t0);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.83rem;
+            color: var(--t1);
+        }
+
+        .summary-row.total {
+            border-top: 1px solid var(--border);
+            padding-top: 0.85rem;
+            margin-top: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .summary-row.total span {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--t0);
+        }
+
+        .summary-row.total .total-amount {
+            font-family: var(--mono);
+            font-size: 1.4rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* ── Notification Toast ── */
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            padding: 0.7rem 1.1rem;
+            background: var(--t0);
+            color: #fff;
+            border-radius: var(--r);
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            box-shadow: var(--shadow-xl);
+            transform: translateY(80px);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1000;
+            transition: all 0.28s cubic-bezier(0.16,1,0.3,1);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .toast.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+        .toast.success i { color: #6EE7B7; }
+        .toast.error i { color: #FCA5A5; }
+        .toast.info i { color: #A5B4FC; }
+
+        /* ── Loader ── */
+        .loader {
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: currentColor;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Modal ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(28, 27, 24, 0.45);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.22s ease-in-out;
+        }
+
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            width: 90%;
+            max-width: 400px;
+            border-radius: var(--r-lg);
+            box-shadow: var(--shadow-xl);
+            transform: scale(0.96) translateY(12px);
+            transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
+            overflow: hidden;
+        }
+
+        .modal-overlay.active .modal { transform: scale(1) translateY(0); }
+
+        .modal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-head h2 { font-size: 0.97rem; font-weight: 700; }
+
+        .modal-close {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            border: none;
+            background: transparent;
+            color: var(--t2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.12s;
+            font-size: 0.9rem;
+        }
+
+        .modal-close:hover { background: var(--bg); color: var(--t0); }
+
+        .modal-body { padding: 1.25rem; }
+
+        .modal-foot {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            padding: 0.9rem 1.25rem;
+            border-top: 1px solid var(--border);
+            background: var(--surface-2);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .content-layout { grid-template-columns: 1fr; }
+            .summary-card { position: static; }
+        }
+
+        @media (max-width: 640px) {
+            .page-header {
+                height: auto;
+                min-height: 56px;
+                padding: 0.75rem 1rem;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.75rem;
+            }
+            .brand {
+                justify-content: space-between;
+                width: 100%;
+                gap: 1rem;
+            }
+            .page-body { padding: 1.25rem 1rem 3rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .field.span-2 { grid-column: span 1; }
+            .cart-builder { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+            .cart-builder div:first-child { grid-column: span 2; }
+            .cart-builder div:nth-child(4) { grid-column: span 2; }
+            .cart-builder button { grid-column: span 2; width: 100%; }
+            .cart-table-head, .cart-table-row {
+                grid-template-columns: 1fr 60px 80px 30px;
+            }
+            .cart-table-head div:nth-child(3), .cart-table-row div:nth-child(3) { display: none; } /* Hide unit price on small screen */
+            .brand-badge { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="brand">
+            <div class="brand-logo">
+                <span>BizPilot</span>
+                <span class="brand-badge">Admin</span>
+            </div>
+            <nav class="nav-links">
+                <a href="/admin/catalogue" style="color: var(--t2); text-decoration: none; padding: 0.25rem 0; transition: color 0.15s;" onmouseover="this.style.color='var(--t0)'" onmouseout="this.style.color='var(--t2)'">Catalogue</a>
+                <a href="/admin/sales" style="color: var(--accent); text-decoration: none; border-bottom: 2px solid var(--accent); padding: 0.25rem 0;">Record Sale</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Body -->
+    <main class="page-body">
+        <div class="content-layout">
+            
+            <!-- Left Column: Forms and Cart -->
+            <div>
+                <!-- Customer Details Panel -->
+                <div class="panel">
+                    <div class="panel-head"><i class="fa-solid fa-user"></i> Customer & Invoice Settings</div>
+                    <div class="panel-body">
+                        <div class="form-grid">
+                            <div class="field">
+                                <label for="custPhone">Customer Phone Number</label>
+                                <input type="text" id="custPhone" class="field-ctrl" placeholder="e.g. 9876543210" oninput="searchCustomers(this.value)">
+                                <div class="autocomplete-results" id="autocompleteResults"></div>
+                            </div>
+                            <div class="field">
+                                <label for="custName">Customer Name</label>
+                                <input type="text" id="custName" class="field-ctrl" placeholder="e.g. Sandro">
+                            </div>
+                            <div class="field">
+                                <label for="saleDate">Sale Date</label>
+                                <input type="date" id="saleDate" class="field-ctrl">
+                            </div>
+                            <div class="field" style="display: flex; flex-direction: column; justify-content: center; gap: 0.5rem; padding-top: 1rem;">
+                                <div class="toggle-row">
+                                    <span class="toggle-label">Generate PDF Invoice</span>
+                                    <label class="toggle">
+                                        <input type="checkbox" id="genInvoice" checked>
+                                        <span class="toggle-track"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-row">
+                                    <span class="toggle-label">Send via WhatsApp</span>
+                                    <label class="toggle">
+                                        <input type="checkbox" id="sendWhatsApp">
+                                        <span class="toggle-track"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Selector & Cart Builder -->
+                <div class="panel">
+                    <div class="panel-head"><i class="fa-solid fa-cart-shopping"></i> Add Items to Sale</div>
+                    <div class="panel-body">
+                        
+                        <div class="cart-builder">
+                            <div class="field" style="margin-bottom:0">
+                                <label for="itemProduct">Select Product</label>
+                                <select id="itemProduct" class="field-ctrl" onchange="onProductSelect()">
+                                    <option value="" disabled selected>Choose product...</option>
+                                    <option value="custom">-- Custom Product Name --</option>
+                                </select>
+                                <input type="text" id="customProductName" class="field-ctrl" placeholder="Enter product name..." style="display:none; margin-top:0.5rem;">
+                            </div>
+                            <div class="field" style="margin-bottom:0">
+                                <label for="itemQty">Qty</label>
+                                <input type="number" id="itemQty" class="field-ctrl" min="1" value="1">
+                            </div>
+                            <div class="field" style="margin-bottom:0">
+                                <label for="itemPrice">Price</label>
+                                <input type="number" id="itemPrice" class="field-ctrl" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="field" style="margin-bottom:0">
+                                <label for="itemWarranty">Warranty</label>
+                                <select id="itemWarranty" class="field-ctrl" onchange="onWarrantySelect()">
+                                    <option value="No Warranty">No Warranty</option>
+                                    <option value="6 Months">6 Months</option>
+                                    <option value="1 Year" selected>1 Year</option>
+                                    <option value="2 Years">2 Years</option>
+                                    <option value="3 Years">3 Years</option>
+                                    <option value="5 Years">5 Years</option>
+                                    <option value="custom">Custom...</option>
+                                </select>
+                                <input type="text" id="customWarranty" class="field-ctrl" placeholder="e.g. 10 Years" style="display:none; margin-top:0.5rem;">
+                            </div>
+                            <button class="btn btn-primary" onclick="addToCart()" style="height:37px; padding:0 1rem;">
+                                <i class="fa-solid fa-plus"></i> Add
+                            </button>
+                        </div>
+
+                        <!-- Cart Items List -->
+                        <div class="cart-table-head">
+                            <div>Item Description</div>
+                            <div>Qty</div>
+                            <div>Price</div>
+                            <div>Total</div>
+                            <div></div>
+                        </div>
+                        <div id="cartItemsBody">
+                            <!-- Items will populate dynamically -->
+                            <div class="empty-state" style="padding: 2.5rem 1rem;" id="cartEmptyState">
+                                <i class="fa-solid fa-basket-shopping"></i>
+                                <p>Your sale cart is empty.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Summary Card -->
+            <div class="summary-col">
+                <div class="summary-card">
+                    <h3 class="summary-title"><i class="fa-solid fa-file-invoice"></i> Sales Preview</h3>
+                    
+                    <div class="summary-row">
+                        <span class="summary-label">Invoice Date:</span>
+                        <span class="summary-value" id="previewDate">–</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Customer Name:</span>
+                        <span class="summary-value" id="previewCustName">–</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Customer Phone:</span>
+                        <span class="summary-value" id="previewCustPhone">–</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Total Items:</span>
+                        <span class="summary-value" id="previewItemCount">0</span>
+                    </div>
+                    
+                    <div class="summary-row total">
+                        <span>Grand Total:</span>
+                        <span class="total-amount" id="previewTotal">₹0.00</span>
+                    </div>
+
+                    <button class="btn" id="previewPdfBtn" onclick="previewInvoicePdf()" style="width:100%; justify-content:center; padding: 0.75rem; margin-bottom: 0.5rem; border-color: var(--accent); color: var(--accent); background: var(--accent-bg);" disabled>
+                        <i class="fa-solid fa-file-pdf"></i> Preview PDF Invoice
+                    </button>
+                    <button class="btn btn-primary" id="recordSaleBtn" onclick="submitSale()" style="width:100%; justify-content:center; padding: 0.75rem;" disabled>
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Record Sale & Save
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast">
+        <span id="toastIcon"></span>
+        <span id="toastMessage"></span>
+    </div>
+
+    <!-- PDF Preview Modal -->
+    <div class="modal-overlay" id="pdfPreviewModal">
+        <div class="modal" style="max-width: 800px; width: 95%;">
+            <div class="modal-head">
+                <h2>PDF Invoice Preview</h2>
+                <button class="modal-close" onclick="closePdfPreviewModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" style="padding: 0; height: 500px;">
+                <iframe id="pdfFrame" src="" style="width: 100%; height: 100%; border: none;"></iframe>
+            </div>
+            <div class="modal-foot" style="background: var(--surface-2);">
+                <a href="" id="openNewTabBtn" target="_blank" class="btn"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open in New Tab</a>
+                <button class="btn" onclick="closePdfPreviewModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="closePdfPreviewModal(); submitSale();">Confirm & Record Sale</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        let allProducts = [];
+        let cart = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set date to today
+            document.getElementById('saleDate').value = new Date().toISOString().split('T')[0];
+            fetchProducts();
+            updatePreview();
+            
+            // Listen for clicks outside autocomplete to close it
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#custPhone') && !e.target.closest('#autocompleteResults')) {
+                    closeAutocomplete();
+                }
+            });
+            
+            // Listen for date updates to update preview
+            document.getElementById('saleDate').addEventListener('change', (e) => {
+                document.getElementById('previewDate').innerText = formatDate(e.target.value);
+            });
+            
+            // Listen for customer name input to update preview
+            document.getElementById('custName').addEventListener('input', (e) => {
+                document.getElementById('previewCustName').innerText = e.target.value.trim() || '–';
+            });
+        });
+
+        function showToast(msg, type = 'success') {
+            const t = document.getElementById('toast');
+            const i = document.getElementById('toastIcon');
+            t.className = `toast ${type} show`;
+            document.getElementById('toastMessage').innerText = msg;
+            i.innerHTML = type === 'success'
+                ? '<i class="fa-solid fa-circle-check"></i>'
+                : type === 'error'
+                ? '<i class="fa-solid fa-circle-exclamation"></i>'
+                : '<i class="fa-solid fa-circle-info"></i>';
+            setTimeout(() => t.classList.remove('show'), 3200);
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '–';
+            const [year, month, day] = dateStr.split('-');
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return `${day}-${months[parseInt(month) - 1]}-${year}`;
+        }
+
+        async function fetchProducts() {
+            try {
+                const response = await fetch('/api/web/products');
+                allProducts = await response.json();
+                populateProductsDropdown();
+            } catch (e) {
+                console.error("Failed to load products list:", e);
+                showToast("Failed to fetch product listing", "error");
+            }
+        }
+
+        function populateProductsDropdown() {
+            const select = document.getElementById('itemProduct');
+            
+            // Keep first two default options
+            select.innerHTML = `
+                <option value="" disabled selected>Choose product...</option>
+                <option value="custom">-- Custom Product Name --</option>
+            `;
+
+            allProducts.filter(p => p.is_active).forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.id;
+                opt.textContent = `${p.name} (${p.category})`;
+                opt.dataset.price = p.default_price;
+                opt.dataset.name = p.name;
+                select.appendChild(opt);
+            });
+        }
+
+        function onProductSelect() {
+            const select = document.getElementById('itemProduct');
+            const priceInput = document.getElementById('itemPrice');
+            const customNameInput = document.getElementById('customProductName');
+            
+            if (select.value === 'custom') {
+                customNameInput.style.display = 'block';
+                priceInput.value = '';
+            } else {
+                customNameInput.style.display = 'none';
+                const selectedOpt = select.options[select.selectedIndex];
+                if (selectedOpt && selectedOpt.dataset.price) {
+                    priceInput.value = parseFloat(selectedOpt.dataset.price).toFixed(2);
+                }
+            }
+        }
+
+        function onWarrantySelect() {
+            const select = document.getElementById('itemWarranty');
+            const customInput = document.getElementById('customWarranty');
+            
+            if (select.value === 'custom') {
+                customInput.style.display = 'block';
+            } else {
+                customInput.style.display = 'none';
+            }
+        }
+
+        async function searchCustomers(query) {
+            const container = document.getElementById('autocompleteResults');
+            
+            // Clean phone preview in right column
+            document.getElementById('previewCustPhone').innerText = query.trim() || '–';
+
+            if (!query.trim()) {
+                closeAutocomplete();
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/web/customers/search?q=${encodeURIComponent(query)}`);
+                const customers = await response.json();
+                
+                if (customers.length === 0) {
+                    closeAutocomplete();
+                    return;
+                }
+
+                container.innerHTML = '';
+                customers.forEach(c => {
+                    const div = document.createElement('div');
+                    div.className = 'autocomplete-item';
+                    div.innerHTML = `<strong>${c.name}</strong> (${c.phone_number})`;
+                    div.onclick = () => selectCustomer(c);
+                    container.appendChild(div);
+                });
+                container.classList.add('active');
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function selectCustomer(customer) {
+            document.getElementById('custPhone').value = customer.phone_number;
+            document.getElementById('custName').value = customer.name;
+            document.getElementById('previewCustName').innerText = customer.name;
+            document.getElementById('previewCustPhone').innerText = customer.phone_number;
+            closeAutocomplete();
+        }
+
+        function closeAutocomplete() {
+            document.getElementById('autocompleteResults').classList.remove('active');
+        }
+
+        function addToCart() {
+            const productSelect = document.getElementById('itemProduct');
+            const qtyInput = document.getElementById('itemQty');
+            const priceInput = document.getElementById('itemPrice');
+            const warrantySelect = document.getElementById('itemWarranty');
+            
+            let productName = '';
+            let productId = null;
+            
+            if (productSelect.value === 'custom') {
+                productName = document.getElementById('customProductName').value.trim();
+            } else if (productSelect.value) {
+                const selectedOpt = productSelect.options[productSelect.selectedIndex];
+                productName = selectedOpt.dataset.name;
+                productId = parseInt(productSelect.value);
+            }
+
+            const qty = parseInt(qtyInput.value);
+            const price = parseFloat(priceInput.value);
+            
+            let warrantyInfo = warrantySelect.value;
+            if (warrantySelect.value === 'custom') {
+                warrantyInfo = document.getElementById('customWarranty').value.trim();
+            }
+
+            if (!productName || isNaN(qty) || qty <= 0 || isNaN(price) || price < 0 || !warrantyInfo) {
+                showToast("Please fill all item fields with valid values", "error");
+                return;
+            }
+
+            // Check if product with same name and warranty is already in cart
+            const existingIndex = cart.findIndex(item => item.product_name === productName && item.warranty_info === warrantyInfo);
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += qty;
+            } else {
+                cart.push({
+                    product_id: productId,
+                    product_name: productName,
+                    quantity: qty,
+                    price: price,
+                    warranty_info: warrantyInfo
+                });
+            }
+
+            // Clear inputs
+            productSelect.value = '';
+            document.getElementById('customProductName').value = '';
+            document.getElementById('customProductName').style.display = 'none';
+            qtyInput.value = '1';
+            priceInput.value = '';
+            warrantySelect.value = '1 Year';
+            document.getElementById('customWarranty').value = '';
+            document.getElementById('customWarranty').style.display = 'none';
+
+            renderCart();
+            updatePreview();
+            showToast("Item added to sale list");
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            renderCart();
+            updatePreview();
+            showToast("Item removed");
+        }
+
+        function renderCart() {
+            const body = document.getElementById('cartItemsBody');
+            const emptyState = document.getElementById('cartEmptyState');
+            
+            // Remove existing row elements (excluding empty state)
+            const rows = body.querySelectorAll('.cart-table-row');
+            rows.forEach(r => r.remove());
+
+            if (cart.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            cart.forEach((item, index) => {
+                const total = item.quantity * item.price;
+                const div = document.createElement('div');
+                div.className = 'cart-table-row';
+                div.innerHTML = `
+                    <div class="cart-item-info">
+                        <span class="cart-item-name">${item.product_name}</span>
+                        <span class="cart-item-warranty"><i class="fa-solid fa-shield-halved"></i> ${item.warranty_info}</span>
+                    </div>
+                    <div class="cart-item-qty">${item.quantity}</div>
+                    <div class="cart-item-price">₹${item.price.toFixed(2)}</div>
+                    <div class="cart-item-total">₹${total.toFixed(2)}</div>
+                    <div style="text-align:right">
+                        <button class="btn-remove" onclick="removeFromCart(${index})" title="Remove item"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                `;
+                body.appendChild(div);
+            });
+        }
+
+        function updatePreview() {
+            const previewDate = document.getElementById('previewDate');
+            const previewName = document.getElementById('previewCustName');
+            const previewPhone = document.getElementById('previewCustPhone');
+            const previewCount = document.getElementById('previewItemCount');
+            const previewTotal = document.getElementById('previewTotal');
+            const submitBtn = document.getElementById('recordSaleBtn');
+
+            // Header/Static fields
+            previewDate.innerText = formatDate(document.getElementById('saleDate').value);
+            previewName.innerText = document.getElementById('custName').value.trim() || '–';
+            previewPhone.innerText = document.getElementById('custPhone').value.trim() || '–';
+
+            // Counts
+            const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+            previewCount.innerText = totalQty;
+
+            // Grand Total
+            const totalAmount = cart.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+            previewTotal.innerText = `₹${totalAmount.toFixed(2)}`;
+
+            // Enable/disable submit button
+            submitBtn.disabled = cart.length === 0;
+            document.getElementById('previewPdfBtn').disabled = cart.length === 0;
+        }
+
+        async function submitSale() {
+            if (cart.length === 0) return;
+
+            const phone = document.getElementById('custPhone').value.trim();
+            const name = document.getElementById('custName').value.trim();
+            const saleDate = document.getElementById('saleDate').value;
+            const generateInvoice = document.getElementById('genInvoice').checked;
+            const sendWhatsApp = document.getElementById('sendWhatsApp').checked;
+
+            if (phone && !name) {
+                showToast("Please enter a customer name for the profile", "error");
+                return;
+            }
+
+            const btn = document.getElementById('recordSaleBtn');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<span class="loader"></span> Recording Sale...';
+            btn.disabled = true;
+
+            const payload = {
+                customer_phone: phone,
+                customer_name: name,
+                sale_date: saleDate,
+                generate_invoice: generateInvoice,
+                send_whatsapp: sendWhatsApp,
+                items: cart
+            };
+
+            try {
+                const response = await fetch('/api/web/sales', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    showToast(`Sale recorded! Invoice: ${result.sale.invoice_number}`, "success");
+                    
+                    // Clear the cart
+                    cart = [];
+                    renderCart();
+                    updatePreview();
+                    
+                    // Reset Customer details
+                    document.getElementById('custPhone').value = '';
+                    document.getElementById('custName').value = '';
+                } else {
+                    const err = await response.json();
+                    showToast(err.detail || "Failed to record sale", "error");
+                }
+            } catch (error) {
+                console.error(error);
+                showToast("Network / Server connection error", "error");
+            } finally {
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+            }
+        }
+
+        function previewInvoicePdf() {
+            if (cart.length === 0) return;
+
+            const phone = document.getElementById('custPhone').value.trim();
+            const name = document.getElementById('custName').value.trim();
+            const saleDate = document.getElementById('saleDate').value;
+
+            const btn = document.getElementById('previewPdfBtn');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<span class="loader" style="border-top-color: var(--accent);"></span> Generating...';
+            btn.disabled = true;
+
+            const payload = {
+                customer_phone: phone,
+                customer_name: name,
+                sale_date: saleDate,
+                items: cart
+            };
+
+            fetch('/api/web/sales/preview', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => {
+                if (!res.ok) throw new Error("Preview failed");
+                return res.json();
+            })
+            .then(result => {
+                document.getElementById('pdfFrame').src = result.preview_url;
+                document.getElementById('openNewTabBtn').href = result.preview_url;
+                document.getElementById('pdfPreviewModal').classList.add('active');
+            })
+            .catch(err => {
+                console.error(err);
+                showToast("Failed to generate PDF preview", "error");
+            })
+            .finally(() => {
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+            });
+        }
+
+        function closePdfPreviewModal() {
+            document.getElementById('pdfPreviewModal').classList.remove('active');
+            document.getElementById('pdfFrame').src = '';
+        }
+    </script>
+</body>
+</html>
